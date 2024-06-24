@@ -1,0 +1,19 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Publier une Demande{% endblock %}
+
+{% block content %}
+  <h2>Créer une Demande</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_message">Message :</label>
+      {{ form.message }}
+    </div>
+    <div class="form-group">
+      <label for="id_numero_contact">Numéro de contact :</label>
+      {{ form.numero_contact }}
+    </div>
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+  </form>
+{% endblock %}

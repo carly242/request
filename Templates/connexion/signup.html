@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer un compte</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    .vh-100 {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Créer un compte</h3>
+
+            <form id="signupForm" method="post" onsubmit="return validateForm()">
+              {% csrf_token %}
+              
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" id="typeUsernameX-2" class="form-control form-control-lg" name="username" />
+                <label class="form-label" for="typeUsernameX-2">Nom d'utilisateur</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="email" />
+                <label class="form-label" for="typeEmailX-2">Email</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password1" />
+                <label class="form-label" for="typePasswordX-2">Mot de Passe</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="typePasswordX-3" class="form-control form-control-lg" name="password2" />
+                <label class="form-label" for="typePasswordX-3">Confirmer Mot de Passe</label>
+              </div>
+
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Créer un compte</button>
+            </form>
+
+            <hr class="my-4">
+
+            <p class="mb-0">Déjà un compte? <a href="{% url 'login' %}" class="text-primary">Se connecter</a></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Font Awesome JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+
+<!-- Custom JS -->
+<script>
+    function validateForm() {
+        var username = document.getElementById("typeUsernameX-2").value;
+        var email = document.getElementById("typeEmailX-2").value;
+        var password1 = document.getElementById("typePasswordX-2").value;
+        var password2 = document.getElementById("typePasswordX-3").value;
+
+        // Vérifier si tous les champs sont remplis
+        if (username.trim() === '' || email.trim() === '' || password1.trim() === '' || password2.trim() === '') {
+            alert("Veuillez remplir tous les champs.");
+            return false; // Empêcher la soumission du formulaire
+        }
+
+        // Les mots de passe doivent correspondre
+        if (password1 !== password2) {
+            alert("Les mots de passe ne correspondent pas.");
+            return false; // Empêcher la soumission du formulaire
+        }
+
+        // Si la validation passe, soumettre le formulaire
+        return true;
+    }
+</script>
+
+</body>
+</html>

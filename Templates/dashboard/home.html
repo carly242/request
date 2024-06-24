@@ -1,0 +1,13 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Bienvenue sur ColisTransfert</h2>
+  <p>Facilitez l'envoi de colis via des voyageurs.</p>
+  <div>
+    <a href="{% url 'voir_offres' %}" class="btn btn-primary">Voir les Offres</a>
+    <a href="{% url 'publier_offre_colis' %}" class="btn btn-primary">Publier une Offre de Colis</a>
+    
+  </div>
+{% endblock %}

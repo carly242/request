@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mise à jour du profil</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Mise à jour du profil</h1>
+        <form method="post" enctype="multipart/form-data" action="{% url 'update_profile' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Nom d’utilisateur :</label>
+                {{ form.username }}
+                <small>150 caractères maximum. </small>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.numero.id_for_label }}">Numéro :</label>
+                {{ form.numero }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.photo.id_for_label }}">Photo :</label>
+                <div class="current-photo">
+                    <img src="{{ user.photo.url }}" alt="Photo actuelle" id="photo-preview">
+                </div>
+                {{ form.photo }}
+            </div>
+            <button type="submit">Mettre à jour</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('id_photo').addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                const imgPreview = document.getElementById('photo-preview');
+                imgPreview.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+    
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .form-group .current-photo img {
+        max-width: 100px;
+        height: auto; /* Ensure the image maintains its aspect ratio */
+        border-radius: 4px; /* Change this to 50% for circular image */
+    }
+    
+    button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #03a819;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #028f14;
+    }
+    
+    small {
+        display: block;
+        margin-top: 5px;
+        color: #888;
+    }
+</style>

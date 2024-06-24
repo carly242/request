@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <title>{% block title %}Accueil{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+            {% if user.is_authenticated %}
+                <div class="user-photo">
+                    <img src="{{ user.photo.url }}" alt="Photo actuelle" class="img logo rounded-circle mb-5">
+                </div>
+                <h4 style="font-size: small; color:beige">Bienvenue {{ user.username }}</h4>
+                <a href="{% url 'update_profile' %}" class="btn btn-light"><i class="fa fa-pencil"></i></a>
+            {% else %}
+                <div class="user-photo">
+                    <img src="{% static 'images/user.png' %}" alt="Default photo" class="img logo rounded-circle mb-5">
+                </div>
+            {% endif %}
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="{% url 'accueil' %}">Accueil</a>
+                </li>
+                <li>
+                    <a href="{% url 'voir_offres' %}">Voir les Offres</a>
+                </li>
+                <li>
+                    <a href="{% url 'publier_offre_colis' %}">Publier une Offre de Colis</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'accueil' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'demand' %}">Faire une demande</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'voir_demande' %}">Voir les demandes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+
+<style>
+    .user-photo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 190px; /* Augmentez la taille ici */
+        height: 190px; 
+    }
+    
+    .user-photo img {
+        width: 90px; /* Augmentez la taille ici */
+        height: 90px; /* Assurez-vous que la hauteur est égale à la largeur pour un cercle parfait */
+        border-radius: 50%; /* Rend l'image circulaire */
+        object-fit: cover; /* Assure que l'image couvre bien l'espace sans déformation */
+        border: 2px solid #ddd; /* Optionnel : ajoute une bordure autour de l'image */
+    }
+</style>

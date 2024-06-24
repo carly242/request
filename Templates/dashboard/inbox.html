@@ -1,0 +1,19 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Boîte de Réception{% endblock %}
+
+{% block content %}
+  <h2>Boîte de Réception</h2>
+  <ul>
+    {% for message in messages %}
+      <li>
+        <a href="{% url 'message_detail' message.id %}">
+          <strong>{{ message.sender.username }}</strong>: {{ message.subject }}
+        </a>
+        <span>{{ message.sent_at|date:"d F Y, H:i" }}</span>
+      </li>
+    {% empty %}
+      <li>Aucun message reçu.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Offres Publiées{% endblock %}
+
+{% block content %}
+<style>
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: transform 0.2s;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    color: #666;
+    margin-bottom: 5px;
+  }
+
+  .card-subtitle {
+    color: #888;
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+</style>
+
+<h2 class="mb-4">Offres Publiées</h2>
+
+<form method="get" action="">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" name="q" placeholder="Rechercher par ville de départ ou de destination" value="{{ query }}">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-primary">Rechercher</button>
+    </div>
+  </div>
+</form>
+
+<h3 class="mt-4">Offres de Colis Publiées</h3>
+<div class="row">
+  {% for offre in offres_colis %}
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ offre.poids_disponible }} kg</h5>
+        <p class="card-text"><strong>Date de voyage :</strong> {{ offre.date_voyage }}</p>
+        <p class="card-text"><strong>Ville de départ :</strong> {{ offre.ville_depart }}</p>
+        <p class="card-text"><strong>Ville de destination :</strong> {{ offre.ville_destination }}</p>
+        <p class="card-text"><strong>Date limite pour vous contacter :</strong> {{ offre.date_limite_contact }}</p>
+        <p class="card-text"><strong>Publié par :</strong> {{ offre.utilisateur.username }}</p>
+        <p class="card-text"><strong>Numéro de Contact :</strong> {{ offre.numero_contact }}</p>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <p>Aucune offre de colis publiée.</p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

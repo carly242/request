@@ -1,0 +1,11 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Message{% endblock %}
+
+{% block content %}
+  <h2>Message</h2>
+  <p><strong>De :</strong> {{ message.sender.username }}</p>
+  <p><strong>Sujet :</strong> {{ message.subject }}</p>
+  <p><strong>Message :</strong> {{ message.message }}</p>
+  <p><strong>Envoyé le :</strong> {{ message.sent_at|date:"d F Y, H:i" }}</p>
+{% endblock %}

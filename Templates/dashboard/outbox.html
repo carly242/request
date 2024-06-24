@@ -1,0 +1,17 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Boîte d'Envoi{% endblock %}
+
+{% block content %}
+  <h2>Boîte d'Envoi</h2>
+  <ul>
+    {% for message in messages %}
+      <li>
+        <strong>À : {{ message.recipient.username }}</strong>: {{ message.subject }}
+        <span>{{ message.sent_at|date:"d F Y, H:i" }}</span>
+      </li>
+    {% empty %}
+      <li>Aucun message envoyé.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Publier une Offre{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Publier une Offre</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_poids_disponible">Kilos disponibles :</label>
+      {{ form.poids_disponible }}
+    </div>
+    <div class="form-group">
+      <label for="id_date_voyage">Date de voyage :</label>
+      {{ form.date_voyage }}
+    </div>
+    <div class="form-group">
+      <label for="id_ville_depart">Ville de départ :</label>
+      {{ form.ville_depart }}
+    </div>
+    <div class="form-group">
+      <label for="id_ville_destination">Ville de destination :</label>
+      {{ form.ville_destination }}
+    </div>
+    <div class="form-group">
+      <label for="id_date_limite_contact">Date limite pour vous contacter :</label>
+      {{ form.date_limite_contact }}
+    </div>
+    <div class="form-group">
+      <label for="id_numero_contact">Numéro de contact :</label>
+      {{ form.numero_contact }}
+    </div>
+    <button type="submit" class="btn btn-primary">Publier</button>
+  </form>
+{% endblock %}
