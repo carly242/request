@@ -121,15 +121,17 @@ USE_TZ = True
 AUTH_USER_MODEL = 'offres.CustomUser'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# settings.py
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_ROOT = os.path.join(BASE_DIR /'website/media')
+
+
+
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR / 'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR / 'static')
 
 
 # Default primary key field type
