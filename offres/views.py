@@ -27,11 +27,11 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')  # Rediriger vers la page d'accueil ou une autre page
+            return redirect('accueil')  # Rediriger vers la page d'accueil ou une autre page
         else:
             messages.error(request, 'Nom d’utilisateur ou mot de passe incorrect.')
 
-    return render(request, 'login.html')
+    return render(request, 'connexion/login.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -54,7 +54,7 @@ def signup(request):
         else:
             messages.error(request, 'Les mots de passe ne correspondent pas.')
 
-    return render(request, 'signup.html')
+    return render(request, 'connexion/signup.html')
 
 from django.db.models import Q
 
