@@ -179,8 +179,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH_PKCE_ENABLED': True,
         # Assurez-vous que vos clés client et secret sont définies
         'APP': {
-            'client_id': '368034511242-3a6k19ngbjtebhsfo3usamgf49k2ar4p.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
             'key': ''
         }
     }
