@@ -19,22 +19,26 @@
                 </div>
                 <h4 style="font-size: small; color:beige">Bienvenue {{ user.username }}</h4>
                 <a href="{% url 'update_profile' %}" class="btn btn-light"><i class="fas fa-pen"></i></a>
-            {% else %}
-                <div class="user-photo">
-                    <img src="{% static 'images/user.png' %}" alt="Default photo" class="img logo rounded-circle mb-5">
-                </div>
+                <ul class="list-unstyled components mb-5">
+                    <li class="active">
+                        <a href="{% url 'home' %}">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'voir_demande' %}">Voir les demandes</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'publier_offre_colis' %}">Publier une Offre de Colis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'demand' %}">Faire une demande</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'inbox' %}">Messages</a>
+                    </li>
+                </ul>
+            
+                
             {% endif %}
-            <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="{% url 'accueil' %}">Accueil</a>
-                </li>
-                <li>
-                    <a href="{% url 'voir_offres' %}">Voir les Offres</a>
-                </li>
-                <li>
-                    <a href="{% url 'publier_offre_colis' %}">Publier une Offre de Colis</a>
-                </li>
-            </ul>
         </div>
     </nav>
 
@@ -55,15 +59,11 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'accueil' %}">Home</a>
                         </li>
+                        {% if not user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'demand' %}">Faire une demande</a>
+                            <a class="nav-link" href="{% url 'connect' %}">Se connecter</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'voir_demande' %}">Voir les demandes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

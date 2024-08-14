@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'offres'
 ]
 
@@ -48,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Kilos.urls'
@@ -65,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -141,3 +149,40 @@ else:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LANGUAGE_CODE = 'fr'
+
+
+SITE_ID = 1
+
+LOGIN_URL = '/accounts/login/'  # URL de redirection pour les utilisateurs non connectés
+
+LOGIN_REDIRECT_URL = '/'
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'offline',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+        # Assurez-vous que vos clés client et secret sont définies
+        'APP': {
+            'client_id': '368034511242-3a6k19ngbjtebhsfo3usamgf49k2ar4p.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+

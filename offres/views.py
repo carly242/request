@@ -4,10 +4,10 @@ from django.shortcuts import render
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Demande, OffreColis
-from .forms import CustomUserChangeForm, DemandeForm, OffreColisForm
+from .models import Demande, OffreColis, Message
+from .forms import CustomUserChangeForm, DemandeForm, MessageForm, OffreColisForm, ReplyMessageForm
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 from django.contrib.auth import authenticate
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render, redirect, get_object_or_404
@@ -27,7 +27,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('accueil')  # Rediriger vers la page d'accueil ou une autre page
+            return redirect('home')  # Rediriger vers la page d'accueil ou une autre page
         else:
             messages.error(request, 'Nom d’utilisateur ou mot de passe incorrect.')
 
@@ -50,7 +50,7 @@ def signup(request):
                 user = get_user_model().objects.create_user(email=email, username=username, password=password1)
                 user.save()
                 messages.success(request, 'Compte créé avec succès. Vous pouvez maintenant vous connecter.')
-                return redirect('login')
+                return redirect('connect')
         else:
             messages.error(request, 'Les mots de passe ne correspondent pas.')
 
@@ -88,7 +88,7 @@ def publish_colis(request):
             offre.numero_contact = form.cleaned_data['numero_contact']
             offre.save()
             # Redirection vers la page des offres publiées avec l'offre nouvellement créée
-            return redirect('voir_offres')
+            return redirect('home')
     else:
         form = OffreColisForm()
     return render(request, 'dashboard/publish_offers.html', {'form': form})
@@ -127,3 +127,90 @@ def update_profile(request):
 
 def update_success(request):
     return render(request, 'dashboard/update_success.html')
+
+@login_required
+def send_message(request, offre_id):
+    offre = get_object_or_404(OffreColis, id=offre_id)
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.recipient = offre.utilisateur
+            message.offre = offre
+            message.save()
+            return redirect('home')
+    else:
+        form = MessageForm()
+    return render(request, 'dashboard/send_message.html', {'form': form, 'offre': offre})
+
+def inbox(request):
+    messages_received = Message.objects.filter(recipient=request.user)
+    return render(request, 'dashboard/inbox.html', {'messages_received': messages_received})
+
+
+@login_required
+def view_message(request, message_id):
+    message = get_object_or_404(Message, id=message_id, recipient=request.user)
+    if request.method == 'POST':
+        form = ReplyMessageForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.sender = request.user
+            reply.recipient = message.sender
+            reply.offre = message.offre
+            reply.parent = message
+            reply.save()
+            return redirect('inbox')
+    else:
+        form = ReplyMessageForm()
+    return render(request, 'dashboard/view_message.html', {'message': message, 'form': form})
+
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.views import OAuth2LoginView
+from allauth.socialaccount.providers.google.views import OAuth2LoginView
+from django.http import HttpResponseRedirect
+from allauth.socialaccount.models import SocialLogin
+from allauth.socialaccount.helpers import complete_social_login
+from urllib.parse import urlencode
+from django.conf import settings
+
+
+def google_login_redirect(request):
+    print("Google login redirect view called")
+
+    adapter = GoogleOAuth2Adapter(request)
+    callback_url = adapter.get_callback_url(request, 'google_callback')
+    authorize_url = 'https://accounts.google.com/o/oauth2/auth'  # Assurez-vous que cela est correct
+    
+    client_id = settings.SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']
+    
+    scope = 'profile email'
+    response_type = 'code'
+
+    params = {
+        'client_id': client_id,
+        'redirect_uri': callback_url,
+        'scope': scope,
+        'response_type': response_type,
+    }
+
+    url = f"{authorize_url}?{urlencode(params)}"
+    print(f"Redirecting to: {url}")
+    
+    return HttpResponseRedirect(url)
+
+
+
+def google_callback(request):
+    # Ajouter un message de débogage pour vérifier que la vue est appelée
+    print("Google callback called")
+
+    # Ajoutez une vérification de l'utilisateur après la connexion
+    if request.user.is_authenticated:
+        print("User is authenticated:", request.user.username)
+        return redirect('home')
+    else:
+        print("Pas connnecté")
+        return redirect('account_login')

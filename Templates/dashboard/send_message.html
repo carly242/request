@@ -1,12 +1,14 @@
+<!-- send_message.html -->
 {% extends 'dashboard/base.html' %}
 
 {% block title %}Envoyer un Message{% endblock %}
 
 {% block content %}
-  <h2>Envoyer un Message</h2>
-  <form method="post">
+<h2>Contacter l'auteur de l'offre</h2>
+<p><strong>Offre :</strong> {{ offre.poids_disponible }} kg de {{ offre.ville_depart }} à {{ offre.ville_destination }}</p>
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Envoyer</button>
-  </form>
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
 {% endblock %}

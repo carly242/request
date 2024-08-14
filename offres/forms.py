@@ -34,3 +34,19 @@ class DemandeForm(forms.ModelForm):
     class Meta:
         model = Demande
         fields = ['message',  'numero_contact']
+
+from .models import Message
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Votre message...'}),
+        }
+        
+        
+class ReplyMessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['content']

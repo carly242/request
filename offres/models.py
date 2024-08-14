@@ -41,3 +41,16 @@ class Demande(models.Model):
 
     def __str__(self):
         return f"Demande de {self.utilisateur.username} - {self.created_at}"
+# models.py
+
+class Message(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_messages')
+    offre = models.ForeignKey(OffreColis, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Message de {self.sender.username} à {self.recipient.username}"

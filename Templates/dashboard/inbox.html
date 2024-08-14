@@ -1,19 +1,20 @@
+<!-- inbox.html -->
 {% extends 'dashboard/base.html' %}
 
 {% block title %}Boîte de Réception{% endblock %}
 
 {% block content %}
-  <h2>Boîte de Réception</h2>
-  <ul>
-    {% for message in messages %}
-      <li>
-        <a href="{% url 'message_detail' message.id %}">
-          <strong>{{ message.sender.username }}</strong>: {{ message.subject }}
-        </a>
-        <span>{{ message.sent_at|date:"d F Y, H:i" }}</span>
-      </li>
-    {% empty %}
-      <li>Aucun message reçu.</li>
-    {% endfor %}
-  </ul>
+<h2>Boîte de Réception</h2>
+<div class="list-group">
+  {% for message in messages_received %}
+  <a href="{% url 'view_message' message.id %}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ message.sender.username }}</h5>
+      <small>{{ message.timestamp }}</small>
+    </div>
+    <p class="mb-1">{{ message.content }}</p>
+    <small>Offre : {{ message.offre.poids_disponible }} kg de {{ message.offre.ville_depart }} à {{ message.offre.ville_destination }}</small>
+  </a>
+  {% endfor %}
+</div>
 {% endblock %}

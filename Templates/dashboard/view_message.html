@@ -1,0 +1,43 @@
+<!-- view_message.html -->
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Message{% endblock %}
+
+{% block content %}
+<h2>Message de {{ message.sender.username }}</h2>
+<p><strong>Date :</strong> {{ message.timestamp }}</p>
+<p><strong>Contenu :</strong> {{ message.content }}</p>
+<p><strong>Offre :</strong> {{ message.offre.poids_disponible }} kg de {{ message.offre.ville_depart }} à {{ message.offre.ville_destination }}</p>
+
+<h3>Réponses</h3>
+<div class="list-group mb-4">
+  {% for reply in message.replies.all %}
+  <div class="list-group-item">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ reply.sender.username }}</h5>
+      <small>{{ reply.timestamp }}</small>
+    </div>
+    <p class="mb-1">{{ reply.content }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<h3>Répondre</h3>
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="content">Message :</label>
+    <textarea class="form-control" id="content" name="content" rows="3" style="width: 50%; max-width: 400px; height: 10px"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+
+
+<style>
+    textarea {
+    resize: none; /* Empêche le redimensionnement de la zone de texte */
+    height: 10px;
+    min-height: 5px;
+    }
+</style>
+{% endblock %}
