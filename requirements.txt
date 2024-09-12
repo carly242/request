@@ -6,3 +6,4 @@ packaging==24.1
 pillow==10.3.0
 sqlparse==0.5.0
 tzdata==2024.1
+django-allauth==64.0.0
